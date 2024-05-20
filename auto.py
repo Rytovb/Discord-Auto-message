@@ -53,26 +53,6 @@ def configure_info():
         print(f"{get_timestamp()} Error configuring user information: {e}")
         exit()
 
-
-def set_channel():
-    info = read_info()
-    if info:
-        user_id, token, _, _ = info
-        channel_url = input("Discord channel URL: ")
-        channel_id = input("Discord channel ID: ")
-        write_info(user_id, token, channel_url, channel_id)
-        print(f"Written config to info.txt, please rerun to start!")
-
-
-def show_help():
-    print("Showing help for discord-auto-messenger")
-    print("Usage:")
-    print("  'python3 auto.py'               :  Runs the automessenger. Type in the wait time and take a back seat.")
-    print("  'python3 auto.py --config'      :  Configure settings.")
-    print("  'python3 auto.py --setC'  :  Set channel to send message to. Including Channel ID and Channel URL")
-    print("  'python3 auto.py --help'        :  Show help")
-
-
 def send_message(conn, channel_id, message_data, header_data):
     try:
         conn.request("POST", f"/api/v6/channels/{channel_id}/messages", message_data, header_data)
@@ -91,12 +71,6 @@ def main():
     if len(sys.argv) > 1:
         if sys.argv[1] == "--config" and input("Configure? (y/n)") == "y":
             configure_info()
-            return
-        elif sys.argv[1] == "--setC" and input("Set channel? (y/n)") == "y":
-            set_channel()
-            return
-        elif sys.argv[1] == "--help":
-            show_help()
             return
 
     info = read_info()
